@@ -2,12 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { botResponses } from '../constants/botResponses';
 import { categories } from '../constants/categories';
+import { Typing } from './Typing';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [filteredRecommendations, setFilteredRecommendations] = useState([]);
+  const [isBotTyping, setIsBotTyping] = useState(false);
   const messageContainerRef = useRef(null);
 
   useEffect(() => {
@@ -56,8 +58,17 @@ const Chatbot = () => {
     ]);
     setInput('');
   
-    handleSpecificResponses(userMessage);
+    handleBotTyping();
+
+    setTimeout(() => {
+      handleSpecificResponses(userMessage);
+      setIsBotTyping(false);
+    }, 1000);
   };  
+
+  const handleBotTyping = () => {
+    setIsBotTyping(true);
+  };
 
   const handleSpecificResponses = (userMessage) => {
     let response = '';
@@ -75,8 +86,15 @@ const Chatbot = () => {
   
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: response, type: 'bot' },
+      { text: <Typing />, type: 'bot' }, 
     ]);
+
+    setTimeout(() => {
+      setMessages((prevMessages) => [
+        ...prevMessages.slice(0, -1), // Remove the "typing..." indicator
+        { text: response, type: 'bot' },
+      ]);
+    }, 500);
   };
 
   const handleRecommendationClick = (recommendation) => {
@@ -84,12 +102,16 @@ const Chatbot = () => {
       return;
     } 
     
-    
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: recommendation, type: 'user' },
     ]);
-    handleSpecificResponses(recommendation);
+    handleBotTyping();
+
+    setTimeout(() => {
+      handleSpecificResponses(recommendation);
+      setIsBotTyping(false);
+    }, 500);
   };
 
   return (
@@ -133,35 +155,35 @@ const Chatbot = () => {
             Send
           </button>
         </div>
-        <div className="recommendations mt-4">
-          {filteredRecommendations.map((category, index) => (
-            <div key={index}>
-              <button
-                className={`${
-                  selectedCategory.includes(category.name)
-                    ? 'bg-gray-400 text-white'
-                    : 'bg-gray-300 text-gray-800'
-                } py-1 px-4 rounded-lg m-1 text-left w-full`}
-                onClick={() => setSelectedCategory(category.name)}
-              >
-                {category.name}
-              </button>
-              {selectedCategory.includes(category.name) && (
-                <div className="pl-4">
-                  {category.recommendations.map((recommendation, index) => (
-                    <button
-                      key={index}
-                      className="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded-lg my-1 text-gray-800 w-full text-left"
-                      onClick={() => handleRecommendationClick(recommendation)}
-                    >
-                      {recommendation}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className="recommendations mt-4">
+        {filteredRecommendations.map((category, index) => (
+          <div key={index}>
+            <button
+              className={`${
+                selectedCategory.includes(category.name)
+                  ? 'bg-gray-400 text-white'
+                  : 'bg-gray-300 text-gray-800'
+              } py-1 px-4 rounded-lg m-1 text-left w-full`}
+              onClick={() => setSelectedCategory(category.name)}
+            >
+              {category.name}
+            </button>
+            {selectedCategory.includes(category.name) && (
+              <div className="pl-4">
+                {category.recommendations.map((recommendation, index) => (
+                  <button
+                    key={index}
+                    className="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded-lg my-1 text-gray-800 w-full text-left"
+                    onClick={() => handleRecommendationClick(recommendation)}
+                  >
+                    {recommendation}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
