@@ -1,0 +1,15 @@
+export const botResponses = [
+    { input: ['what date is it today?'], response: `Today's date is ${new Date().toLocaleDateString()}` },
+    { input: ['what are your business hours?'], response: 'We are open from 9:30 AM to 6:30 PM, Monday to Friday. Feel free to reach out during those times.' },
+    { input: ['when is the next official holiday for our team?'], response: 'The next official holiday for our team is [holiday date]. Enjoy your time off!' },
+    { input: ['how do i take a leave?'], response: 'To take a leave, inform either your scrum master or your manager, and apply for leave on greytHR portal. Take care!' },
+    { input: ['what are the current company policies regarding remote work?'], response: <a href="https://docs.google.com/spreadsheets/d/1qQirTlwr5D2ZQLDlUu602K0HvvbDidj0NA9jxoG66wo/edit?usp=sharing" target="_blank"><u>Click to view the company policies</u></a> },
+    { input: ['how can i update my personal information in the employee database?'], response: 'You can update your personal information by...' },
+    { input: ['when is our next sprint review call with the client?'], response: 'The next sprint review call with the client will be...' },
+    { input: ['what is the process for submitting expenses for reimbursement?'], response: 'To submit expenses for reimbursement, you can mail the bill details to ...' },
+    { input: ['where can i find the company\'s code of conduct and ethics policies?'], response: 'You can access our code of conduct and ethics policies in...' },
+    { input: ['how can i submit feedback or suggestions to improve company processes?'], response: 'We value your feedback! You can submit suggestions or feedback through the "Employee Feedback" form which is provided to the employees at the end of every month.' },
+    { input: ['can you provide information on the current open positions within the company?', 'current job openings'], response: 'Certainly! You can view our current job openings in the...' },
+    { input: ['hi', 'hello'], response: 'Hi, how may I help you?' },
+    { input: ['default'], response: 'I did not understand your question. How may I assist you?' }, 
+  ];
