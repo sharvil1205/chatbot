@@ -64,7 +64,7 @@ const Chatbot = () => {
       handleSpecificResponses(userMessage);
       setIsBotTyping(false);
     }, 1000);
-  };  
+  }; 
 
   const handleBotTyping = () => {
     setIsBotTyping(true);
@@ -114,6 +114,12 @@ const Chatbot = () => {
     }, 500);
   };
 
+  const handleInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
       <div className="mb-4">
@@ -147,6 +153,7 @@ const Chatbot = () => {
             placeholder="Type your message..."
             value={input}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
           />
           <button
             className="bg-blue-500 text-white py-2 px-4 ml-2 rounded-md"
